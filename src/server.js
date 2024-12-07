@@ -10,7 +10,7 @@ export const setupServer = () => {
   //створення серверу
   const app = express();
   //middleware дозволяє обмін інфою між веб-ресурсами з різних доменів
-  app.use(cors);
+  app.use(cors());
   //middleware логування
   app.use(
     pino({
@@ -37,7 +37,7 @@ export const setupServer = () => {
     // Отримаємо id контакту з параметрів маршруту (req.params)
     const { id } = req.params;
     // Робимо запит до бази та отримуємо відповідний контакт
-    const data = await contactServices.getContactById();
+    const data = await contactServices.getContactById(id);
     // Якщо немає контакту з таким id, повернути статус 404 та повідомлення про це
     if (!data) {
       return res.status(404).json({
@@ -48,7 +48,7 @@ export const setupServer = () => {
     // Повертаємо повідомлення про успішну відповідь та відповідний контакт на фронтенд
     res.json({
       status: 200,
-      message: `Successfully found contact with id: ${id}!`,
+      message: `Successfully found contact with id: ${id}`,
       data,
     });
   });
