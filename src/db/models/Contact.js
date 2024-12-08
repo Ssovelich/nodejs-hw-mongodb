@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 // Створюємо mongo схему
-const contactShema = new Schema(
+const contactSchema = new Schema(
   {
     name: {
       type: String,
@@ -13,12 +13,10 @@ const contactShema = new Schema(
     },
     email: {
       type: String,
-      required: true,
     },
     isFavourite: {
       type: Boolean,
       default: false,
-      required: true,
     },
     contactType: {
       type: String,
@@ -31,6 +29,6 @@ const contactShema = new Schema(
 );
 
 // На основі схеми створюємо модель(клас), який зяв'зується з колекцією "contact"
-const ContactCollection = model('contact', contactShema);
+const ContactCollection = model('contact', contactSchema);
 
 export default ContactCollection;
