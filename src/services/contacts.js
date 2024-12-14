@@ -21,7 +21,6 @@ export const updateContact = async (_id, payload, options = {}) => {
     includeResultMetadata: true,
   });
 
-  //
   if (!result || !result.value) return null;
 
   // якщо в об'єкті lastErrorObject поле upserted має булеве значення
