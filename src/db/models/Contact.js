@@ -25,7 +25,9 @@ const contactSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true },
+  // versionKey: false прибирає додавання версії обєкту
+  // timestamps: true додає дату та час створення та оновлення
+  { versionKey: false, timestamps: true },
 );
 
 // На основі схеми створюємо модель(клас), який зяв'зується з колекцією "contact"

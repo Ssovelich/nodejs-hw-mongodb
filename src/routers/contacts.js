@@ -13,4 +13,23 @@ contactsRouter.get(
   ctrlWrapper(ContactsController.getContactByIdController),
 );
 
+contactsRouter.post('/', ctrlWrapper(ContactsController.addContactController));
+
+// upsert = update + insert (якщо є об'єкт з таким id, то він оновлюється,
+// якщо немає, то створюється новий об'єкт з таким id)
+contactsRouter.put(
+  '/:id',
+  ctrlWrapper(ContactsController.upsertContactController),
+);
+
+contactsRouter.patch(
+  '/:id',
+  ctrlWrapper(ContactsController.patchContactController),
+);
+
+contactsRouter.delete(
+  '/:id',
+  ctrlWrapper(ContactsController.deleteContactController),
+);
+
 export default contactsRouter;

@@ -16,6 +16,9 @@ export const setupServer = () => {
   //middleware дозволяє обмін інфою між веб-ресурсами з різних доменів
   app.use(cors());
 
+  //middleware яка обробляє тіло запиту в форматі json
+  app.use(express.json());
+
   //middleware логування
   app.use(logger);
 
