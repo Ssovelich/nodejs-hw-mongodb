@@ -7,13 +7,13 @@ const parseContactType = (contactType) => {
   if (isContactType(contactType)) return contactType;
 };
 
-const parseFavourite = (Favourite) => {
-  const isString = typeof Favourite === 'string';
+const parseFavourite = (isFavourite) => {
+  const isString = typeof isFavourite === 'string';
   if (!isString) return;
 
-  const isFavourite = (Favourite) => ['true', 'false'].includes(Favourite);
+  const isBoolean = (isFavourite) => ['true', 'false'].includes(isFavourite);
 
-  if (isFavourite(Favourite)) return Favourite;
+  if (isBoolean(isFavourite)) return isFavourite;
 };
 
 export const parseFilterParams = (query) => {
