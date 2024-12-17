@@ -1,8 +1,12 @@
 import { Router } from 'express';
-
 import * as ContactsController from '../controllers/contacts.js';
-
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import {
+  createContactSchema,
+  updateContactSchema,
+} from '../validation/contacts.js';
+import { isValidId } from '../middlewares/isValidId.js';
 
 const contactsRouter = Router();
 
@@ -10,25 +14,35 @@ contactsRouter.get('/', ctrlWrapper(ContactsController.getContactsController));
 
 contactsRouter.get(
   '/:id',
+  isValidId,
   ctrlWrapper(ContactsController.getContactByIdController),
 );
 
-contactsRouter.post('/', ctrlWrapper(ContactsController.addContactController));
+contactsRouter.post(
+  '/',
+  validateBody(createContactSchema),
+  ctrlWrapper(ContactsController.addContactController),
+);
 
 // upsert = update + insert (якщо є об'єкт з таким id, то він оновлюється,
 // якщо немає, то створюється новий об'єкт з таким id)
 contactsRouter.put(
   '/:id',
+  isValidId,
+  validateBody(createContactSchema),
   ctrlWrapper(ContactsController.upsertContactController),
 );
 
 contactsRouter.patch(
   '/:id',
+  isValidId,
+  validateBody(updateContactSchema),
   ctrlWrapper(ContactsController.patchContactController),
 );
 
 contactsRouter.delete(
   '/:id',
+  isValidId,
   ctrlWrapper(ContactsController.deleteContactController),
 );
 

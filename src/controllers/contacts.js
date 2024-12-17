@@ -1,11 +1,22 @@
 import createError from 'http-errors';
-
 // Імпортуємо всі іменовані імпорти у змінну contactServices
 import * as contactServices from '../services/contacts.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getContactsController = async (req, res) => {
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+  const filter = parseFilterParams(req.query);
   // Робимо запит до бази та отримуємо список контактів
-  const data = await contactServices.getContacts();
+  const data = await contactServices.getContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
   // Повертаємо повідомлення про успішну відповідь та списов контактів на фронтенд
   res.json({
     status: 200,
