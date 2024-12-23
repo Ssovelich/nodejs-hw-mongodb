@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import { typeList } from '../../constants/contacts.js';
+import { setUpdateSettinds } from '../hooks.js';
 // Створюємо mongo схему
 const contactSchema = new Schema(
   {
@@ -20,7 +22,7 @@ const contactSchema = new Schema(
     },
     contactType: {
       type: String,
-      enum: ['work', 'home', 'personal'],
+      enum: typeList,
       default: 'personal',
       required: true,
     },
@@ -29,6 +31,9 @@ const contactSchema = new Schema(
   // timestamps: true додає дату та час створення та оновлення
   { versionKey: false, timestamps: true },
 );
+
+//перед оновленням встанови
+contactSchema.pre('findOneAndUpdate', setUpdateSettinds);
 
 // На основі схеми створюємо модель(клас), який зяв'зується з колекцією "contact"
 const ContactCollection = model('contact', contactSchema);

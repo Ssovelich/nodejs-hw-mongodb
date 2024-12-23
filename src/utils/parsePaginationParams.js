@@ -1,3 +1,4 @@
+// функція отримує чимло та значення за замовченням
 const parseNumber = (number, defaultValue) => {
   const isString = typeof number === 'string';
   if (!isString) return defaultValue;

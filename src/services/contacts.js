@@ -54,7 +54,6 @@ export const updateContact = async (_id, contactData, options = {}) => {
     { _id },
     contactData,
     {
-      new: true,
       // якщо об'єкт не знадено, то він створиться
       upsert,
       // додаються в об'єкт відповіді додаткові значення

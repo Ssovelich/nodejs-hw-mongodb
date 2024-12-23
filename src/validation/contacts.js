@@ -1,5 +1,7 @@
 import Joi from 'joi';
 
+import { typeList } from '../constants/contacts.js';
+
 export const createContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required().messages({
     'string.base': 'Name should be a string',
@@ -30,7 +32,7 @@ export const createContactSchema = Joi.object({
     'boolean.base': 'Field must be true or false',
   }),
   contactType: Joi.string()
-    .valid('work', 'home', 'personal')
+    .valid(...typeList)
     .required()
     .messages({
       'any.only': 'Field should have one of this values: personal, home, work',
@@ -64,7 +66,9 @@ export const updateContactSchema = Joi.object({
   isFavourite: Joi.boolean().messages({
     'boolean.base': 'Field must be true or false',
   }),
-  contactType: Joi.string().valid('work', 'home', 'personal').messages({
-    'any.only': 'Field should have one of this values: personal, home, work',
-  }),
+  contactType: Joi.string()
+    .valid(...typeList)
+    .messages({
+      'any.only': 'Field should have one of this values: personal, home, work',
+    }),
 });
