@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-import { typeList } from '../../constants/contacts.js';
-import { handleSaveError, setUpdateSettings } from '../hooks.js';
+import { handleSaveError, setUpdateSettings } from './hooks.js';
+import { typeList } from '../../constants/index.js';
 
 // Створюємо mongo схему
 const contactSchema = new Schema(
@@ -35,7 +35,7 @@ const contactSchema = new Schema(
 
 //після додавання сталося помилка, вона обробиться
 contactSchema.post('save', handleSaveError);
-//перед оновленням встанови
+//перед оновленням включаємо валідацію
 contactSchema.pre('findOneAndUpdate', setUpdateSettings);
 //підчас оновлення талося помилка, вона обробиться
 contactSchema.post('findOneAndUpdate', handleSaveError);

@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { getEnvVar } from './utils/getEnvVar.js';
 
 import contactsRouter from './routers/contacts.js';
+import authRouter from './routers/auth.js';
 
 export const setupServer = () => {
   //створення серверу
@@ -22,6 +23,7 @@ export const setupServer = () => {
   //middleware логування
   app.use(logger);
 
+  app.use('/auth', authRouter);
   // Якщо прийде запит який починається з /contacts, шукає обробку
   // цього запиту в обє'кті contactsRouter
   app.use('/contacts', contactsRouter);
