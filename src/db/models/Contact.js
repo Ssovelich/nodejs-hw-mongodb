@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 import { typeList } from '../../constants/contacts.js';
-import { setUpdateSettinds } from '../hooks.js';
+import { handleSaveError, setUpdateSettings } from '../hooks.js';
+
 // Створюємо mongo схему
 const contactSchema = new Schema(
   {
@@ -32,8 +33,12 @@ const contactSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
+//після додавання сталося помилка, вона обробиться
+contactSchema.post('save', handleSaveError);
 //перед оновленням встанови
-contactSchema.pre('findOneAndUpdate', setUpdateSettinds);
+contactSchema.pre('findOneAndUpdate', setUpdateSettings);
+//підчас оновлення талося помилка, вона обробиться
+contactSchema.post('findOneAndUpdate', handleSaveError);
 
 // На основі схеми створюємо модель(клас), який зяв'зується з колекцією "contact"
 const ContactCollection = model('contact', contactSchema);

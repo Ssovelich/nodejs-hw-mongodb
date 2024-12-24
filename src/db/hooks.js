@@ -1,5 +1,10 @@
+export const handleSaveError = (error, doc, next) => {
+  error.status = 400;
+  next();
+};
+
 //перед оновленням встанови
-export const setUpdateSettinds = function (next) {
+export const setUpdateSettings = function (next) {
   //пеовертати оновлений об'єкт
   this.options.new = true;
   // при оновленні робити перевірку
