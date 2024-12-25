@@ -20,12 +20,17 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minlength: 6,
       required: true,
     },
   },
   { versionKey: false, timestamps: true },
 );
+
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 
 //після додавання сталося помилка, вона обробиться
 userSchema.post('save', handleSaveError);

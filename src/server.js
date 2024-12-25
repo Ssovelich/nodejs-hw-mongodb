@@ -10,6 +10,8 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import contactsRouter from './routers/contacts.js';
 import authRouter from './routers/auth.js';
 
+import cookieParser from 'cookie-parser';
+
 export const setupServer = () => {
   //створення серверу
   const app = express();
@@ -19,6 +21,8 @@ export const setupServer = () => {
 
   //middleware яка обробляє тіло запиту в форматі json
   app.use(express.json());
+
+  app.use(cookieParser());
 
   //middleware логування
   app.use(logger);
