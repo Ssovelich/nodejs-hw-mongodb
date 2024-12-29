@@ -9,6 +9,13 @@ import {
   refreshTokenLifetime,
 } from '../constants/index.js';
 
+const createSessionData = () => ({
+  accessToken: randomBytes(30).toString('base64'),
+  refreshToken: randomBytes(30).toString('base64'),
+  accessTokenValidUntil: Date.now() + accessTokenLifetime,
+  refreshTokenValidUntil: Date.now() + refreshTokenLifetime,
+});
+
 export const register = async (payload) => {
   //додається email та password нового користувача
   const { email, password } = payload;
@@ -43,14 +50,43 @@ export const login = async ({ email, password }) => {
   //коли відбувається логін, попередня сесія видаляється
   await sessionCollection.deleteOne({ userId: user._id });
 
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  const sessionData = createSessionData();
 
   return await sessionCollection.create({
     userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: Date.now() + accessTokenLifetime,
-    refreshTokenValidUntil: Date.now() + refreshTokenLifetime,
+    ...sessionData,
   });
 };
+
+export const logout = async (sessionId) => {
+  await sessionCollection.deleteOne({ _id: sessionId });
+};
+
+export const refreshSession = async (payload) => {
+  // перевіряємо чи є така сесія
+  const oldSession = await sessionCollection.findOne({
+    _id: payload.sessionId,
+    refreshToken: payload.refreshToken,
+  });
+  //якщо сесіхї немає, викидаємо помилку
+  if (!oldSession) {
+    throw createHttpError(401, 'Session not found');
+  }
+  //перевіряємо якщо потосний час бильше ніж живе токен, викидаємо помилку
+  if (Date.now() > oldSession.refreshTokenValidUntil) {
+    throw createHttpError(401, 'Session token expired');
+  }
+
+  await sessionCollection.deleteOne({ _id: payload.sessionId });
+
+  const sessionData = createSessionData();
+
+  return await sessionCollection.create({
+    userId: oldSession.userId,
+    ...sessionData,
+  });
+};
+
+export const getUser = (filter) => UserCollection.findOne(filter);
+
+export const getSession = (filter) => sessionCollection.findOne(filter);

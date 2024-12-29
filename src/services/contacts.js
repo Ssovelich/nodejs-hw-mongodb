@@ -21,7 +21,9 @@ export const getContacts = async ({
   if (filter.isFavourite) {
     contactsQuery.where(`isFavourite`).equals(filter.isFavourite);
   }
-
+  if (filter.userId) {
+    contactsQuery.where(`userId`).equals(filter.userId);
+  }
   const [contactsCount, contacts] = await Promise.all([
     ContactCollection.find().merge(contactsQuery).countDocuments(),
 
@@ -42,26 +44,24 @@ export const getContacts = async ({
 
 export const getContactById = (id) => ContactCollection.findById(id);
 
+export const getContact = (filter) => ContactCollection.findOne(filter);
+
 export const addContact = (contactData) =>
   ContactCollection.create(contactData);
 
 // робимо асинхронний (async), бо тут буде кілька операцій
-export const updateContact = async (_id, contactData, options = {}) => {
+export const updateContact = async (filter, contactData, options = {}) => {
   const { upsert = false } = options;
   // Якщо передати 3-м аргументом об'єкт {new: true,}
   // то буде повертатися оновлений об'єкт
-  const result = await ContactCollection.findOneAndUpdate(
-    { _id },
-    contactData,
-    {
-      // якщо об'єкт не знадено, то він створиться
-      upsert,
-      // додаються в об'єкт відповіді додаткові значення
-      // для визначення чи додався чи оновився об'єк
-      // якщо є поле upserted, то об'єкт було додано
-      includeResultMetadata: true,
-    },
-  );
+  const result = await ContactCollection.findOneAndUpdate(filter, contactData, {
+    // якщо об'єкт не знадено, то він створиться
+    upsert,
+    // додаються в об'єкт відповіді додаткові значення
+    // для визначення чи додався чи оновився об'єк
+    // якщо є поле upserted, то об'єкт було додано
+    includeResultMetadata: true,
+  });
 
   if (!result || !result.value) return null;
 

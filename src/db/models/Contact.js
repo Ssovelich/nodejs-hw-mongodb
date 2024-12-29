@@ -27,6 +27,11 @@ const contactSchema = new Schema(
       default: 'personal',
       required: true,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   // versionKey: false прибирає додавання версії обєкту
   // timestamps: true додає дату та час створення та оновлення
