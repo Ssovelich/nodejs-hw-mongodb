@@ -69,14 +69,14 @@ export const addContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
   // Отримаємо id контакту з параметрів маршруту (req.params)
-  const { id } = req.params;
+  const { id: _id } = req.params;
   //отримоєму id користувача
   const { _id: userId } = req.user;
   // Робимо запит до бази та отримуємо відповідний контакт (передається id та тіло запиту)
-  // {upsert: true,} - додає новий об'єкт якщо ткого об'єкту немає
+  // {upsert: true,} - додає новий об'єкт якщо такого об'єкту немає
   // Якщо isNew = true, то об'єкт додано
   const { isNew, data } = await contactServices.updateContact(
-    id,
+    { _id, userId },
     { ...req.body, userId },
     {
       upsert: true,
