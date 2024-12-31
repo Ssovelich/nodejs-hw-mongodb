@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 import { handleSaveError, setUpdateSettings } from './hooks.js';
 
-const sessionSchems = new Schema(
+const sessionSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -29,13 +29,13 @@ const sessionSchems = new Schema(
 );
 
 //після додавання сталося помилка, вона обробиться
-sessionSchems.post('save', handleSaveError);
+sessionSchema.post('save', handleSaveError);
 //перед оновленням включаємо валідацію
-sessionSchems.pre('findOneAndUpdate', setUpdateSettings);
+sessionSchema.pre('findOneAndUpdate', setUpdateSettings);
 //підчас оновлення талося помилка, вона обробиться
-sessionSchems.post('findOneAndUpdate', handleSaveError);
+sessionSchema.post('findOneAndUpdate', handleSaveError);
 
 // На основі схеми створюємо модель
-const sessionCollection = model('session', sessionSchems);
+const sessionCollection = model('session', sessionSchema);
 
 export default sessionCollection;
