@@ -11,7 +11,11 @@ import {
 
 import jwt from 'jsonwebtoken';
 import { SMTP } from '../constants/index.js';
-import 'dotenv/config';
+// import 'dotenv/config';
+// import dotenv from 'dotenv';
+// dotenv.config();
+import { getEnvVar } from '../utils/getEnvVar.js';
+
 import { sendEmail } from '../utils/sendMail.js';
 
 const createSessionData = () => ({
@@ -108,14 +112,15 @@ export const requestResetToken = async (email) => {
       sub: user._id,
       email,
     },
-    process.env['JWT_SECRET'],
+    getEnvVar('JWT_SECRET'),
     {
       expiresIn: '15m',
     },
   );
 
+
   await sendEmail({
-    from: process.env[SMTP.SMTP_FROM],
+    from: getEnvVar(SMTP.SMTP_FROM),
     to: email,
     subject: 'Reset your password',
     html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
