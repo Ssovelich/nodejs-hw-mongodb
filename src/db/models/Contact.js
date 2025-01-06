@@ -32,6 +32,9 @@ const contactSchema = new Schema(
       ref: 'user',
       required: true,
     },
+    photo: {
+       type: String
+    },
   },
   // versionKey: false прибирає додавання версії обєкту
   // timestamps: true додає дату та час створення та оновлення

@@ -5,6 +5,9 @@ import * as contactServices from '../services/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -57,8 +60,19 @@ export const getContactByIdController = async (req, res) => {
 
 export const addContactController = async (req, res) => {
   const { _id: userId } = req.user;
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
   // Отримуємо данні з тіла запиту
-  const data = await contactServices.addContact({ ...req.body, userId });
+  const data = await contactServices.addContact({ ...req.body, userId, photo: photoUrl });
 
   res.status(201).json({
     status: 201,
@@ -72,15 +86,24 @@ export const upsertContactController = async (req, res) => {
   const { id: _id } = req.params;
   //отримоєму id користувача
   const { _id: userId } = req.user;
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
   // Робимо запит до бази та отримуємо відповідний контакт (передається id та тіло запиту)
   // {upsert: true,} - додає новий об'єкт якщо такого об'єкту немає
   // Якщо isNew = true, то об'єкт додано
   const { isNew, data } = await contactServices.updateContact(
     { _id, userId },
-    { ...req.body, userId },
-    {
-      upsert: true,
-    },
+    { ...req.body, userId, photo: photoUrl },
+    {upsert: true},
   );
 
   // Якщо isNew = true, то статус 201 інакше 200
@@ -98,8 +121,19 @@ export const patchContactController = async (req, res) => {
   const { id: _id } = req.params;
   //отримоєму id користувача
   const { _id: userId } = req.user;
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
   // Робимо запит до бази та отримуємо відповідний контакт (передається id та тіло запиту)
-  const result = await contactServices.updateContact({ _id, userId }, req.body);
+  const result = await contactServices.updateContact({ _id, userId }, {...req.body, photo: photoUrl});
 
   if (!result) {
     throw createError(404, `Contact with id: ${_id} not found`);

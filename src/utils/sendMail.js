@@ -15,8 +15,6 @@ const transporter = nodemailer.createTransport({
     pass: getEnvVar(SMTP.SMTP_PASSWORD),
   },
 });
-console.log(getEnvVar(SMTP.SMTP_HOST));
-console.log(transporter.port);
 
 export const sendEmail = async (options) => {
   return await transporter.sendMail(options);
