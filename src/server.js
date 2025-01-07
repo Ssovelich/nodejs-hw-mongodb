@@ -28,6 +28,8 @@ export const setupServer = () => {
 
   //middleware логування
   app.use(logger);
+  // можливість роздавати статичні файли
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use('/auth', authRouter);
   // Якщо прийде запит який починається з /contacts, шукає обробку
@@ -39,8 +41,7 @@ export const setupServer = () => {
 
   // middleware для обробки помилок
   app.use(errorHandler);
-// можливість роздавати статичні файли
-  app.use('/uploads', express.static(UPLOAD_DIR));
+
 
   // PORT - назва змінної оточкення налаштуваня комп'ютера
   // 3000 - значення за замовчуванням
