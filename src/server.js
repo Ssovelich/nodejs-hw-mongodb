@@ -28,7 +28,7 @@ export const setupServer = () => {
 
   //middleware логування
   app.use(logger);
-  // можливість роздавати статичні файли
+  // можливість роздавати статичні файли p папаки UPLOAD_DIR
   app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use('/auth', authRouter);

@@ -23,6 +23,9 @@ contactsRouter.get(
   ctrlWrapper(ContactsController.getContactByIdController),
 );
 
+// upload.single('photo') - в полі "photo" маэ бути один файл
+// upload.array('photo', 8) - очикуэться в полі "photo" до 8 файлів
+// upload.fields([{'photo', maxCount: 1}, {'poster', maxCount: 3}])- файли очикуються в кількох полях
 contactsRouter.post(
   '/',
   upload.single('photo'),

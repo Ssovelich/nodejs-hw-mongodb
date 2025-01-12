@@ -12,7 +12,11 @@ cloudinary.v2.config({
 });
 
 export const saveFileToCloudinary = async (file) => {
-  const response = await cloudinary.v2.uploader.upload(file.path);
+  // додаємо файл у хмаоне сховище в папку Photos
+  const response = await cloudinary.v2.uploader.upload(file.path, {
+    folder: 'Photos',
+  });
+  // Видаляємо файл з папаки temp
   await fs.unlink(file.path);
   return response.secure_url;
 };
