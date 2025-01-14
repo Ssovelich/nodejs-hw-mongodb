@@ -53,7 +53,7 @@ export const getContactByIdController = async (req, res) => {
   // Повертаємо повідомлення про успішну відповідь та відповідний контакт на фронтенд
   res.json({
     status: 200,
-    message: `Successfully found contact with id: ${_id}`,
+    message: `Successfully found contact with id ${_id}!`,
     data,
   });
 };
