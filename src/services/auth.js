@@ -178,19 +178,19 @@ export const resetPassword = async (payload) => {
   );
 };
 
-export const loginOrSignupWithGoogle = async (code) => {
+export const loginOrRegisterWithGoogle = async (code) => {
   const loginTicket = await validateCode(code);
   const payload = loginTicket.getPayload();
   if (!payload) throw createHttpError(401);
 
   let user = await UserCollection.findOne({ email: payload.email });
   if (!user) {
-    const password = await bcrypt.hash(randomBytes(10), 10);
+    const name = getFullNameFromGoogleTokenPayload(payload);
+    const password = await bcrypt.hash(randomBytes(10).toString("base64"), 10);
     user = await UserCollection.create({
       email: payload.email,
-      name: getFullNameFromGoogleTokenPayload(payload),
+      name,
       password,
-      role: 'parent',
     });
   }
 

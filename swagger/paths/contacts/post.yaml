@@ -1,6 +1,6 @@
 tags:
   - Contacts
-summary: Create Contact
+summary: Add Contact
 operationId: createContact
 description: 'Create contact with contact data'
 security:
@@ -58,7 +58,7 @@ responses:
               example: 'Successfully created a contact!'
             data:
               type: object
-              $ref: ../../components/schemas/contacts.yaml
+              $ref: ../../components/schemas/contact.yaml
   '400':
     description: 'Validation Error'
     content:

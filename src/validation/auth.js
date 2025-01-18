@@ -22,6 +22,6 @@ export const resetPasswordSchema = Joi.object({
   token: Joi.string().required(),
 });
 
-export const loginWithGoogleOAuthSchema = Joi.object({
+export const googleOAuthSchema = Joi.object({
   code: Joi.string().required(),
 });

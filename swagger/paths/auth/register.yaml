@@ -1,0 +1,49 @@
+tags:
+  - Auth
+summary: Register User
+operationId: Register
+description: 'Register with provided credentials'
+security: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            type: string
+            example: 'Stanislav Sova'
+          email:
+            type: string
+            example: 'example@mail.com'
+          password:
+            type: string
+            example: 'HTidc!5298asu56kj'
+responses:
+  '201':
+    description: 'Register as a new user'
+    content:
+      application/json:
+        schema:
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: '201'
+            message:
+              type: string
+              example: 'Successfully registered a user!'
+            data:
+              $ref: ../../components/schemas/user.yaml
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '409':
+    $ref: '../../components/responses/409.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

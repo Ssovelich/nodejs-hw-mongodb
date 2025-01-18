@@ -19,6 +19,7 @@ import { swaggerDocs } from './middlewares/swaggerDocs.js';
 export const setupServer = () => {
   //створення серверу
   const app = express();
+  const { serve, setup } = swaggerDocs();
 
   //middleware дозволяє обмін інфою між веб-ресурсами з різних доменів
   app.use(cors());
@@ -33,7 +34,8 @@ export const setupServer = () => {
   // можливість роздавати статичні файли з папаки UPLOAD_DIR
   app.use('/uploads', express.static(UPLOAD_DIR));
 
-  app.use('/api-docs', swaggerDocs());
+  // app.use('/api-docs', swaggerDocs());
+  app.use('/api-docs', serve, setup);
 
   app.use('/auth', authRouter);
   // Якщо прийде запит який починається з /contacts, шукає обробку

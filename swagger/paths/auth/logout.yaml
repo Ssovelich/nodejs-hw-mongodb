@@ -1,0 +1,11 @@
+tags:
+  - Auth
+summary: Log Out User
+operationId: logout
+description: 'Log Out from account. Session ID is taken from cookies'
+security: []
+responses:
+  '204':
+    description: 'Log Out from account.'
+  '500':
+    $ref: '../../components/responses/500.yaml'

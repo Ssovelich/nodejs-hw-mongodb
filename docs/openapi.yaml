@@ -16,7 +16,6 @@ servers:
   - url: http://localhost:3000
   - url: https://nodejs-hw-mongodb-s11m.onrender.com
 paths:
-  # тут будуть посилання на ендпоінти
   /contacts:
     get:
       $ref: ../swagger/paths/contacts/get.yaml
@@ -29,8 +28,33 @@ paths:
       $ref: ../swagger/paths/contacts/{id}/patch.yaml
     delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /auth/get-oauth-url:
+    get:
+      $ref: ../swagger/paths/auth/getOAuthUrl.yaml
+  /auth/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/auth/confirmOAuth.yaml
+  /auth/send-reset-email:
+    post:
+      $ref: ../swagger/paths/auth/sendResetMail.yaml
+  /auth/reset-pwd:
+    post:
+      $ref: ../swagger/paths/auth/resetPwd.yaml
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+
