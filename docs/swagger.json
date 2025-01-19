@@ -197,7 +197,7 @@
         ],
         "requestBody": {
           "content": {
-            "mutipart/form-data": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "required": [
@@ -413,7 +413,7 @@
         ],
         "requestBody": {
           "content": {
-            "mutipart/form-data": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
