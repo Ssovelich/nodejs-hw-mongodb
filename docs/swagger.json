@@ -209,7 +209,7 @@
                   "name": {
                     "description": "Contact`s name",
                     "type": "string",
-                    "example": "Stanislav S"
+                    "example": "Stanislav Sova"
                   },
                   "phoneNumber": {
                     "description": "Contact`s phone number",
@@ -420,12 +420,12 @@
                   "name": {
                     "description": "Contact`s Name",
                     "type": "string",
-                    "example": "Merry Hoffman"
+                    "example": "Stanislav Sova"
                   },
                   "phoneNumber": {
                     "description": "Contact`s phone number",
                     "type": "string",
-                    "example": "+1-415-555-0132"
+                    "example": "+380665051234"
                   },
                   "email": {
                     "description": "Contact`s email",
@@ -449,7 +449,7 @@
                   "photo": {
                     "description": "Link to contact`s photo",
                     "type": "string",
-                    "example": "https://res.cloudinary.com/dczy5l6qy/image/upload/v1735416820/awmvuwbavo9kdohcts6n.jpg"
+                    "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
                   }
                 }
               }

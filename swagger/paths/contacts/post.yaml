@@ -18,7 +18,7 @@ requestBody:
           name:
             description: 'Contact`s name'
             type: string
-            example: 'Stanislav S'
+            example: 'Stanislav Sova'
           phoneNumber:
             description: 'Contact`s phone number'
             type: string
